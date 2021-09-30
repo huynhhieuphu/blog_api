@@ -18,8 +18,8 @@ class CreatePostsTable extends Migration
             $table->string('title', 200)->unique();
             $table->string('slug', 255);
             $table->string('images');
-            $table->string('description');
-            $table->text('body');
+            $table->text('description');
+            $table->mediumText('body');
             $table->unsignedBigInteger('category_id');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

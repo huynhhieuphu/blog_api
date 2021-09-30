@@ -43,13 +43,31 @@ class CategoryController extends Controller
     public function deleteCategory($id)
     {
         $category = Category::find($id);
-        $category->delete();
-        return response()->json(['success' => 'Xoa thanh cong 1 dong']);
+        if($category->posts->count() === 0)
+        {
+            $category->delete();
+            return response()->json(['success' => 'Xoa thanh cong 1 dong']);
+        }
+        return response()->json(['error' => 'Khong duoc phep xoa']);
     }
 
     public function deleteCheckedCategory(Request $request)
     {
-        Category::whereIn('id', $request->ids)->delete();
-        return response()->json(['success' => 'Xoa thanh cong cac 1 dong da chon']);
+        $ids = $request->ids;
+        $arr_del = [];
+
+        foreach ($ids as $id){
+            if(Category::find($id)->posts->count() === 0)
+            {
+                array_push($arr_del, $id);
+            }
+        }
+        Category::whereIn('id', $arr_del)->delete();
+
+        return response()->json([
+            'messages' => 'Xoa thanh cong cac 1 dong da chon',
+            'ids' => $arr_del,
+            'noDel' => $ids
+        ]);
     }
 }

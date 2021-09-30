@@ -172,7 +172,7 @@
                     },
                     success: function (response) {
                         if (response) {
-                            $('#sid' + response.id + ' td:nth-child(1)').html("<input type='checkbox' name='ids' class='checkBoxClass' value='" + response.id + "'>");
+                            // $('#sid' + response.id + ' td:nth-child(1)').html("<input type='checkbox' name='ids' class='checkBoxClass' value='" + response.id + "'>");
                             $('#sid' + response.id + ' td:nth-child(2)').text(response.name);
                             $('#sid' + response.id + ' td:nth-child(3)').text(response.slug);
                             $('#sid' + response.id + ' td:nth-child(4)').text(response.status);
@@ -195,21 +195,33 @@
                     allids.push($(this).val());
                 });
 
-                $.ajax({
-                    url: "{{route('dashboard.category.deleteSelected')}}",
-                    type: "DELETE",
-                    data: {
-                        ids: allids,
-                        _token: "{{csrf_token()}}"
-                    },
-                    success: function (response) {
-                        alert(response.success);
-                        $.each(allids, function (key, value) {
-                            $('#sid' + value).remove();
-                        });
-                        $('#chkCheckAll').prop('checked', false);
-                    }
-                });
+                if(allids.length > 0){
+                    $.ajax({
+                        url: "{{route('dashboard.category.deleteSelected')}}",
+                        type: "DELETE",
+                        data: {
+                            ids: allids,
+                            _token: "{{csrf_token()}}"
+                        },
+                        success: function (response) {
+                            $.each(response.ids, function (key, value) {
+                                $('#sid' + value).remove();
+                            });
+
+                            $.each(response.noDel, function (key, value) {
+                                $('#sid' + value).addClass('table-danger');
+
+                                setTimeout(function(){
+                                    $('#sid' + value).removeClass('table-danger');
+                                }, 3000);
+                            });
+
+                            $('#chkCheckAll').prop('checked', false);
+                            $('.checkBoxClass').prop('checked', false);
+                        }
+                    });
+                }
+                return false;
             });
         });
 
@@ -229,9 +241,11 @@
                     type: 'DELETE',
                     data: {_token: '{{csrf_token()}}'},
                     success: function (response) {
-                        if (response) {
+                        if (response.success) {
                             $('#sid' + id).remove();
                             alert(response.success);
+                        }else{
+                            alert(response.error);
                         }
                     }
                 });

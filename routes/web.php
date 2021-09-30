@@ -1,6 +1,6 @@
 <?php
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ Route::group([
     'as' => 'dashboard.',
     'middleware' => 'auth'
 ], function(){
-    Route::get('/', 'DashBoardController@index')->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::post('/add-category', [CategoryController::class, 'addCategory'])->name('category.add');
@@ -31,6 +31,9 @@ Route::group([
     Route::put('/update-category', [CategoryController::class, 'updateCategory'])->name('category.update');
     Route::delete('/delete-category/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
     Route::delete('/delete-selected-category', [CategoryController::class, 'deleteCheckedCategory'])->name('category.deleteSelected');
+
+    route::delete('/del-checked-post', 'PostController@deleteChecked')->name('post.del.checked');
+    route::resource('post', 'PostController');
 });
 
 

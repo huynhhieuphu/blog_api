@@ -14,8 +14,8 @@
                             </div>
                         @endif
 
-                        <a href="{{route('dashboard.category.index')}}" class="btn btn-success btn-block">Categories</a>
-                        <a href="#" class="btn btn-primary btn-block">Posts</a>
+                        <a href="{{route('dashboard.category.index')}}" class="btn btn-success btn-block">Category</a>
+                        <a href="{{route('dashboard.post.index')}}" class="btn btn-primary btn-block">Post</a>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -34,7 +35,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li><a href="{{route('home')}}" class="nav-link">Home</a></li>
                         <li><a href="{{route('dashboard.category.index')}}" class="nav-link">Category</a></li>
-                        <li><a href="#" class="nav-link">Post</a></li>
+                        <li><a href="{{route('dashboard.post.index')}}" class="nav-link">Post</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
